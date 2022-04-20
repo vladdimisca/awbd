@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update job</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form th:object="${job}" th:action="@{'/jobs/' + *{id}}" th:method="PUT" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <div class="container" style="justify-content: center; padding-top: 20px;">
+        <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+            <div class="panel-heading" style="background-color:rgba(0,123,255,0.73); padding: 3px;">
+                <h1 class="panel-title text-center" style="color:white" >Update job</h1>
+            </div>
+            <div class="panel-body" style="padding: 20px 20px 20px 30px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="jobType">Type: </label>
+                        <select id="jobType" name="jobType" class="form-control" th:field="*{type}">
+                            <option
+                                    th:each="type:${T(com.awbd.project.model.JobType).values()}"
+                                    th:value="${type}" th:text="${type.getDescription()}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="carType">Car type: </label>
+                        <select id="carType" name="carType" class="form-control" th:field="*{carType}">
+                            <option
+                                    th:each="carType:${T(com.awbd.project.model.CarType).values()}"
+                                    th:value="${carType}" th:text="${carType.getDescription()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 20px;">
+                    <div class="col-md-3">
+                        <label th:for="price" >Price:</label>
+                        <input type="number" class="form-control" th:field="*{price}"/>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label th:for="durationMinutes" >Duration minutes:</label>
+                        <input type="number" class="form-control" th:field="*{durationMinutes}"/>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label th:for="numberOfEmployees" >Number of employees:</label>
+                        <input type="number" class="form-control" th:field="*{numberOfEmployees}"/>
+                    </div>
+                </div>
+
+
+                <div class="row" style="padding-top: 30px;">
+                    <div class="col-md-7 ml-md-auto">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></label>
+        <label th:if="${#fields.hasErrors('durationMinutes')}" th:errors="*{durationMinutes}"></label>
+        <label th:if="${#fields.hasErrors('numberOfEmployees')}" th:errors="*{numberOfEmployees}"></label>
+</form>
+</body>
+</html>

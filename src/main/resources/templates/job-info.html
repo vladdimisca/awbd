@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job details</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+    .border {
+        border-width: px;
+    }
+    </style>
+</head>
+<body>
+<div class="container center" style="margin-top: 50px">
+    <div class="row" style="justify-content: center">
+        <div class="col-md-8 col-md-offset-3">
+            <div class="panel-group">
+                <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+                    <div class="panel-heading" style="background-color:rgba(0,123,255,0.73);">
+                        <h1 class="panel-title text-center" style="color:white" >Job</h1>
+                    </div>
+                    <div class="panel-body" style="padding-left: 20px">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Job description:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${job.type.description}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Car type:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${job.carType.description}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Price:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${job.price}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Duration minutes:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${job.durationMinutes}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Number of employees:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${job.numberOfEmployees}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 15px;">
+        <div class="row" style="justify-content: center">
+            <a class="btn btn-primary" role="button" th:href="@{'/jobs/form/' + ${job.id}}">Update job</a>
+            <form th:action="@{'/jobs/' + ${job.id}}" th:method="DELETE" style="margin-left: 10px;">
+                <button class="btn btn-danger" type="submit">Delete job</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create job</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<form th:object="${job}" th:action="@{/jobs/}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background-color:lightgray;">
+                <h1 class="panel-title">Add a new job</h1>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="jobType">Type: </label>
+                        <select id="jobType" name="jobType" th:field="*{type}">
+                            <option
+                                    th:each="type:${T(com.awbd.project.model.JobType).values()}"
+                                    th:value="${type}" th:text="${type.getDescription()}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="carType">Car type: </label>
+                        <select id="carType" name="carType" th:field="*{carType}">
+                            <option
+                                    th:each="carType:${T(com.awbd.project.model.CarType).values()}"
+                                    th:value="${carType}" th:text="${carType.getDescription()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class = "row">
+                    <div class="col-md-4">
+                        <label th:for="info">Info</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label th:for="price" >Price:</label>
+                        <input type="number" class="form-control" th:field="*{price}"/>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label th:for="durationMinutes" >Duration minutes:</label>
+                        <input type="number" class="form-control" th:field="*{durationMinutes}"/>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label th:for="numberOfEmployees" >Number of employees:</label>
+                        <input type="number" class="form-control" th:field="*{numberOfEmployees}"/>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-7 ml-md-auto">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></label>
+        <label th:if="${#fields.hasErrors('durationMinutes')}" th:errors="*{durationMinutes}"></label>
+        <label th:if="${#fields.hasErrors('numberOfEmployees')}" th:errors="*{numberOfEmployees}"></label>
+</form>
+</body>
+</html>

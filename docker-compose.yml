@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+
+#  app:
+#    image: awbd
+#    container_name: awbd
+#    restart: always
+#    depends_on:
+#      - db
+#    ports:
+#      - '8080:8080'
+
+  db:
+    image: mysql
+    container_name: awbd_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'awbd'
+      MYSQL_PASSWORD: '4321'
+      MYSQL_ROOT_PASSWORD: '4321'
+    ports:
+      - '3306:3306'
