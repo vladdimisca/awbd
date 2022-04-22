@@ -1,25 +1,74 @@
 package com.awbd.project.controller;
 
+import com.awbd.project.model.UserDetails;
+import com.awbd.project.model.security.User;
+import com.awbd.project.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
-@RequestMapping
+@RequestMapping("/users")
 public class UserController {
 
-    @GetMapping("/login-form")
-    public String showLogInForm() {
-        return "login";
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/login-error")
-    public String loginError() {
-        return "login-error";
+    @PostMapping
+    public String create(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "register-form";
+        }
+
+        userService.create(user);
+        return "redirect:/login-form";
     }
 
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "access_denied";
+    @PutMapping("/{id}")
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "update-user-form";
+        }
+
+        User updatedUser = userService.update(id, user);
+        return "redirect:/users/" + updatedUser.getId();
+    }
+
+    @GetMapping
+    public String getAll(Model model) {
+        model.addAttribute("users", userService.getAll());
+        return "users";
+    }
+
+    @GetMapping("/{id}")
+    public String getById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        return "user-info";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable("id") Long id) {
+        userService.deleteById(id);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/form")
+    public String userForm(Model model) {
+        User user = new User();
+        user.setUserDetails(new UserDetails());
+        model.addAttribute("user", user);
+        return "register-form";
+    }
+
+    @GetMapping("/form/{id}")
+    public String updateJobForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        return "update-user-form";
     }
 }

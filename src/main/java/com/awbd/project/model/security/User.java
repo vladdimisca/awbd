@@ -1,6 +1,7 @@
 package com.awbd.project.model.security;
 
 import com.awbd.project.model.Appointment;
+import com.awbd.project.model.UserDetails;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +29,10 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Appointment> appointments;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "fk_user_details", referencedColumnName = "id")
+    private UserDetails userDetails;
 
     @Singular
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

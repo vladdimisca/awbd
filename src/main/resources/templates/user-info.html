@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User details</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container center" style="margin-top: 50px">
+    <div class="row" style="justify-content: center">
+        <div class="col-md-8 col-md-offset-3">
+            <div class="panel-group">
+                <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+                    <div class="panel-heading" style="background-color:rgba(0,123,255,0.73);">
+                        <h1 class="panel-title text-center" style="color:white" >User profile</h1>
+                    </div>
+                    <div class="panel-body" style="padding-left: 20px">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Email:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${user.email}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Phone number:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${user.userDetails.phoneNumber}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>First name:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${user.userDetails.firstName}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Last name:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${user.userDetails.lastName}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Sex:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${user.userDetails.sex.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 15px;">
+        <div class="row" style="justify-content: center">
+            <a class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
+            <form th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: 10px;">
+                <button class="btn btn-danger" type="submit">Delete account</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
