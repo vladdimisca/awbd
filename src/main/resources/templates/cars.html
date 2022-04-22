@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Jobs</title>
+    <title>Cars</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <style>
@@ -24,29 +24,27 @@
 <body>
 <div class="container">
     <div class="title padding">
-        <h2 class="text-center">List of jobs</h2>
+        <h2 class="text-center">List of cars</h2>
     </div>
     <div class="row padding float-right">
-        <a class="btn btn-primary" role="button" th:href="@{'/jobs/form/'}">
-            <div class="glyphicon glyphicon-plus"></div> Add job
+        <a class="btn btn-primary" role="button" th:href="@{'/cars/form/'}">
+            <div class="glyphicon glyphicon-plus"></div> Add car
         </a>
     </div>
     <table class="table table-hover table-striped table-bordered rounded">
         <thead class="thead-inverse">
         <tr>
             <th class="header" scope="col">Type</th>
-            <th class="header" scope="col">Car type</th>
-            <th class="header" scope="col">Price</th>
-            <th class="header" scope="col">Duration minutes</th>
+            <th class="header" scope="col">License plate</th>
+            <th class="header" scope="col">Created at</th>
             <th class="header details" scope="col"></th>
         </tr>
         </thead>
-        <tr th:each="job : ${jobs}">
-            <td th:text="${job.type.description}"></td>
-            <td th:text="${job.carType.description}"></td>
-            <td th:text="${job.price}"></td>
-            <td th:text="${job.durationMinutes}"></td>
-            <td><a th:href="@{'/jobs/' + ${job.id}}">Details</a></td>
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.type.description}"></td>
+            <td th:text="${car.licensePlate}"></td>
+            <td th:text="${car.createdAt}"></td>
+            <td><a th:href="@{'/cars/' + ${car.id}}">Details</a></td>
         </tr>
     </table>
 </div>

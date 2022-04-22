@@ -1,5 +1,6 @@
 package com.awbd.project.model;
 
+import com.awbd.project.model.security.User;
 import lombok.Data;
 
 import javax.persistence.*;

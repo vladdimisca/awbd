@@ -56,7 +56,7 @@ public class JobServiceImpl implements JobService {
 
     private void checkJobNotExisting(Job job) {
         if (jobRepository.existsByTypeAndCarType(job.getType(), job.getCarType())) {
-            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "Job");
+            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "job", "type and car type");
         }
     }
 

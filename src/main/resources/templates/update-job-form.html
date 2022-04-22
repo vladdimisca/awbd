@@ -21,7 +21,7 @@
                         <select id="jobType" name="jobType" class="form-control" th:field="*{type}">
                             <option
                                     th:each="type:${T(com.awbd.project.model.JobType).values()}"
-                                    th:value="${type}" th:text="${type.getDescription()}">
+                                    th:value="${type}" th:text="${type.description}">
                             </option>
                         </select>
                     </div>
@@ -31,7 +31,7 @@
                         <select id="carType" name="carType" class="form-control" th:field="*{carType}">
                             <option
                                     th:each="carType:${T(com.awbd.project.model.CarType).values()}"
-                                    th:value="${carType}" th:text="${carType.getDescription()}">
+                                    th:value="${carType}" th:text="${carType.description}">
                             </option>
                         </select>
                     </div>

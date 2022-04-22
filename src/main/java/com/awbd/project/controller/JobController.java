@@ -13,7 +13,7 @@ import javax.validation.Valid;
 @RequestMapping("/jobs")
 public class JobController {
 
-    private JobService jobService;
+    private final JobService jobService;
 
     public JobController(JobService jobService) {
         this.jobService = jobService;

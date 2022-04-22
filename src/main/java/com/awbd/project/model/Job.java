@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -21,29 +20,29 @@ public class Job {
     private Long id;
 
     @Column(name = "type")
-    @NotNull(message = "Type must not be null.")
+    @NotNull(message = "Type is mandatory.")
     @Enumerated(EnumType.STRING)
     private JobType type;
 
     @Column(name = "price")
-    @NotNull(message = "Price must not be null.")
+    @NotNull(message = "Price is mandatory.")
     @Positive(message = "Price must be a positive number.")
     @Max(value = 1000, message = "Price must be at most 1000.")
     private Double price;
 
     @Column(name = "duration_minutes")
-    @NotNull(message = "Duration minutes must not be null.")
+    @NotNull(message = "Duration minutes is mandatory.")
     @Positive(message = "Duration minutes must be a positive number.")
     @Max(value = 90, message = "Duration minutes must be at most 90.")
     private Long durationMinutes;
 
     @Column(name = "car_type")
-    @NotNull(message = "Car type must not be null.")
+    @NotNull(message = "Car type is mandatory.")
     @Enumerated(EnumType.STRING)
     private CarType carType;
 
     @Column(name = "number_of_employees")
-    @NotNull(message = "Number of employees must not be null.")
+    @NotNull(message = "Number of employees is mandatory.")
     @Positive(message = "Number of employees must be a positive number.")
     @Max(value = 5, message = "Number of employees must be at most 5.")
     private Integer numberOfEmployees;

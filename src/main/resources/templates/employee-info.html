@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Job details</title>
+    <title>Employee details</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
@@ -13,47 +13,55 @@
             <div class="panel-group">
                 <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
                     <div class="panel-heading" style="background-color:rgba(0,123,255,0.73);">
-                        <h1 class="panel-title text-center" style="color:white" >Job details</h1>
+                        <h1 class="panel-title text-center" style="color:white" >Employee details</h1>
                     </div>
                     <div class="panel-body" style="padding-left: 20px">
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Type:</strong>
+                                <strong>Email:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${job.type.description}"></p>
+                                <p th:text="${employee.email}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Car type:</strong>
+                                <strong>Phone number:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${job.carType.description}"></p>
+                                <p th:text="${employee.phoneNumber}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Price:</strong>
+                                <strong>First name:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${job.price}"></p>
+                                <p th:text="${employee.firstName}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Duration minutes:</strong>
+                                <strong>Last name:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${job.durationMinutes}"></p>
+                                <p th:text="${employee.lastName}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Number of employees:</strong>
+                                <strong>Salary:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${job.numberOfEmployees}"></p>
+                                <p th:text="${employee.salary}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Hire date:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${employee.hireDate}"></p>
                             </div>
                         </div>
                     </div>
@@ -63,9 +71,9 @@
     </div>
     <div class="container" style="padding-top: 15px;">
         <div class="row" style="justify-content: center">
-            <a class="btn btn-primary" role="button" th:href="@{'/jobs/form/' + ${job.id}}">Update job</a>
-            <form th:action="@{'/jobs/' + ${job.id}}" th:method="DELETE" style="margin-left: 10px;">
-                <button class="btn btn-danger" type="submit">Delete job</button>
+            <a class="btn btn-primary" role="button" th:href="@{'/employees/form/' + ${employee.id}}">Update employee</a>
+            <form th:action="@{'/employees/' + ${employee.id}}" th:method="DELETE" style="margin-left: 10px;">
+                <button class="btn btn-danger" type="submit">Delete employee</button>
             </form>
         </div>
     </div>
