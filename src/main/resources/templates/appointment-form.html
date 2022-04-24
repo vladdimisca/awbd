@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create car</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div th:insert="navbar :: navbar"></div>
+
+<form th:object="${appointment}" th:action="@{/appointments}" th:method="POST" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{user}"/>
+    <div class="container" style="justify-content: center; padding-top: 20px;">
+        <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+            <div class="panel-heading" style="background-color:rgba(0,123,255,0.73); padding: 3px;">
+                <h1 class="panel-title text-center" style="color:white" >Create appointment</h1>
+            </div>
+            <div class="panel-body" style="padding: 20px 20px 20px 30px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="job">Job: </label>
+                        <select id="job" name="job" class="form-control" th:field="*{job.id}">
+                            <option
+                                    th:each="job:${jobs}"
+                                    th:value="${job.id}" th:text="${job.type.description}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="car">Car: </label>
+                        <select id="car" name="car" class="form-control" th:field="*{car.id}">
+                            <option
+                                    th:each="car:${cars}"
+                                    th:value="${car.id}" th:text="${car.licensePlate}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label th:for="startTime" >Date and time:</label>
+                        <input type="datetime-local" class="form-control" th:field="*{startTime}"/>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 30px;">
+                    <div class="col-md-7 ml-md-auto">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <label th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></label>
+<!--        <label th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}"></label>-->
+</form>
+</body>
+</html>

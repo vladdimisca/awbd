@@ -3,6 +3,9 @@ package com.awbd.project.controller;
 import com.awbd.project.model.UserDetails;
 import com.awbd.project.model.security.User;
 import com.awbd.project.service.UserService;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,14 +63,19 @@ public class UserController {
 
     @GetMapping("/form")
     public String userForm(Model model) {
-        User user = new User();
-        user.setUserDetails(new UserDetails());
-        model.addAttribute("user", user);
-        return "register-form";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            User user = new User();
+            user.setUserDetails(new UserDetails());
+            model.addAttribute("user", user);
+            return "register-form";
+        }
+
+        return "redirect:/index";
     }
 
     @GetMapping("/form/{id}")
-    public String updateJobForm(@PathVariable("id") Long id, Model model) {
+    public String updateUserForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.getById(id));
         return "update-user-form";
     }

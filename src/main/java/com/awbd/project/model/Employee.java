@@ -30,7 +30,8 @@ public class Employee {
     private String lastName;
 
     @Column(name = "email")
-    @Email
+    @NotEmpty(message="Email cannot be empty")
+    @Email(message = "Email has an invalid format.")
     private String email;
 
     @Column(name = "phone_number")
@@ -40,7 +41,7 @@ public class Employee {
 
     @Column(name = "salary")
     @NotNull(message = "Salary is mandatory.")
-    @Positive(message = "Salary must be a positive number.")
+    @Min(value = 1500, message = "Salary must be at least 1500.")
     @Max(value = 50000, message = "Salary must be at most 50000.")
     private Double salary;
 

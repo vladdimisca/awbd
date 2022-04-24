@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Car details</title>
@@ -7,15 +7,18 @@
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+<div th:insert="navbar :: navbar"></div>
+
 <div class="container center" style="margin-top: 50px">
     <div class="row" style="justify-content: center">
         <div class="col-md-8 col-md-offset-3">
             <div class="panel-group">
-                <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
-                    <div class="panel-heading" style="background-color:rgba(0,123,255,0.73);">
+                <div class="panel panel-primary" style="border-radius: 20px; border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+                    <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background-color:rgba(0,123,255,0.73); padding: 3px;">
                         <h1 class="panel-title text-center" style="color:white" >Car details</h1>
                     </div>
-                    <div class="panel-body" style="padding-left: 20px">
+                    <div class="panel-body" style="padding-left: 20px; padding-top: 10px;">
                         <div class="row">
                             <div class="col-md-6">
                                 <strong>Type:</strong>
@@ -40,6 +43,14 @@
                                 <p th:text="${car.createdAt}"></p>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Created by:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${car.user.email}"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,8 +58,8 @@
     </div>
     <div class="container" style="padding-top: 15px;">
         <div class="row" style="justify-content: center">
-            <a class="btn btn-primary" role="button" th:href="@{'/cars/form/' + ${car.id}}">Update car</a>
-            <form th:action="@{'/cars/' + ${car.id}}" th:method="DELETE" style="margin-left: 10px;">
+            <a sec:authorize="hasRole('GUEST')" class="btn btn-primary" role="button" th:href="@{'/cars/form/' + ${car.id}}">Update car</a>
+            <form sec:authorize="isAuthenticated()" th:action="@{'/cars/' + ${car.id}}" th:method="DELETE" style="margin-left: 10px;">
                 <button class="btn btn-danger" type="submit">Delete car</button>
             </form>
         </div>

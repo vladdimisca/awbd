@@ -22,31 +22,36 @@
     </style>
 </head>
 <body>
+
+<div th:insert="navbar :: navbar"></div>
+
 <div class="container">
     <div class="title padding">
-        <h2 class="text-center">List of jobs</h2>
+        <h2 class="text-center">List of appointments</h2>
     </div>
     <div class="row padding float-right">
-        <a class="btn btn-primary" role="button" th:href="@{'/jobs/form/'}">
-            <div class="glyphicon glyphicon-plus"></div> Add job
+        <a class="btn btn-primary" role="button" th:href="@{'/appointments/form/'}">
+            <div class="glyphicon glyphicon-plus"></div> Add appointment
         </a>
     </div>
     <table class="table table-hover table-striped table-bordered rounded">
         <thead class="thead-inverse">
         <tr>
-            <th class="header" scope="col">Type</th>
-            <th class="header" scope="col">Car type</th>
-            <th class="header" scope="col">Price</th>
-            <th class="header" scope="col">Duration minutes</th>
+            <th class="header" scope="col">Start time</th>
+            <th class="header" scope="col">Phone number</th>
+            <th class="header" scope="col">Email</th>
+            <th class="header" scope="col">Job type</th>
+            <th class="header" scope="col">License plate</th>
             <th class="header details" scope="col"></th>
         </tr>
         </thead>
         <tr th:each="appointment : ${appointments}">
-            <td th:text="${job.type.description}"></td>
-            <td th:text="${job.carType.description}"></td>
-            <td th:text="${job.price}"></td>
-            <td th:text="${job.durationMinutes}"></td>
-            <td><a th:href="@{'/jobs/' + ${job.id}}">Details</a></td>
+            <td th:text="${appointment.startTime}"></td>
+            <td th:text="${appointment.user.userDetails.phoneNumber}"></td>
+            <td th:text="${appointment.user.email}"></td>
+            <td th:text="${appointment.job.type.description}"></td>
+            <td th:text="${appointment.car.licensePlate}"></td>
+            <td><a th:href="@{'/appointments/' + ${appointment.id}}">Details</a></td>
         </tr>
     </table>
 </div>

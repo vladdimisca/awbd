@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <body>
-Access denied
+<form th:action="@{/perform-logout}" th:method="POST" >
+    <button class="nav-link" style="background:none; border:none; cursor: pointer; outline: none;" type="submit">Logout</button>
+</form>
 </body>
 </html>

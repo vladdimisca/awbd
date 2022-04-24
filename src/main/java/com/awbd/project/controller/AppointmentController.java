@@ -2,6 +2,9 @@ package com.awbd.project.controller;
 
 import com.awbd.project.model.Appointment;
 import com.awbd.project.service.AppointmentService;
+import com.awbd.project.service.CarService;
+import com.awbd.project.service.JobService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,14 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-
-    public AppointmentController(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
-    }
+    private final CarService carService;
+    private final JobService jobService;
 
     @PostMapping
     public String create(@Valid @ModelAttribute Appointment appointment, BindingResult bindingResult) {
@@ -60,6 +62,8 @@ public class AppointmentController {
     @GetMapping("/form")
     public String appointmentForm(Model model) {
         model.addAttribute("appointment", new Appointment());
+        model.addAttribute("cars", carService.getAll());
+        model.addAttribute("jobs", jobService.getAll());
         return "appointment-form";
     }
 

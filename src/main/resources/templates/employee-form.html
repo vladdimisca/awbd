@@ -5,19 +5,27 @@
     <title>Create employee</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        .error {
+            color: rgba(255,0,0,0.91);
+        }
+    </style>
 </head>
 <body>
+
+<div th:insert="navbar :: navbar"></div>
+
 <form th:object="${employee}" th:action="@{/employees}" th:method="POST" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}"/>
     <div class="container" style="justify-content: center; padding-top: 20px;">
-        <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
-            <div class="panel-heading" style="background-color:rgba(0,123,255,0.73); padding: 3px;">
+        <div class="panel panel-primary" style="border-radius: 20px; border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+            <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background-color:rgba(0,123,255,0.73); padding: 3px;">
                 <h1 class="panel-title text-center" style="color:white" >Create employee</h1>
             </div>
-            <div class="panel-body" style="padding: 20px 20px 20px 30px;">
-                <div class="row">
+            <div class="panel-body" style="padding: 20px;">
+                <div class="row" style="justify-content: center;">
                     <div class="col-md-3">
-                        <label th:for="email" >Email:</label>
+                        <label id="email" th:for="email" >Email:</label>
                         <input type="text" class="form-control" th:field="*{email}"/>
                     </div>
 
@@ -32,7 +40,7 @@
                     </div>
                 </div>
 
-                <div class="row" style="padding-top: 20px;">
+                <div class="row" style="padding-top: 20px; justify-content: center;">
                     <div class="col-md-3">
                         <label th:for="firstName" >First name:</label>
                         <input type="text" class="form-control" th:field="*{firstName}"/>
@@ -49,22 +57,37 @@
                     </div>
                 </div>
 
-
                 <div class="row" style="padding-top: 30px;">
                     <div class="col-md-7 ml-md-auto">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
-        <label th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></label>
-        <label th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></label>
-        <label th:if="${#fields.hasErrors('hireDate')}">Hire date is missing or does not match the required format.</label>
-        <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></label>
-        <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></label>
+        <ul style="padding: 25px;">
+            <li th:if="${#fields.hasErrors('email')}">
+                <label class="error" th:errors="*{email}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('phoneNumber')}">
+                <label class="error" th:errors="*{phoneNumber}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('salary')}">
+                <label class="error" th:errors="*{salary}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('hireDate')}">
+                <label class="error">Hire date is missing or does not match the required format.</label>
+            </li>
+            <li th:if="${#fields.hasErrors('firstName')}">
+                <label class="error" th:errors="*{firstName}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('lastName')}">
+                <label class="error" th:errors="*{lastName}"></label>
+            </li>
+        </ul>
+
+    </div>
 </form>
 </body>
 </html>

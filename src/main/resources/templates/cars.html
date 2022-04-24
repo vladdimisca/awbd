@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Cars</title>
@@ -22,11 +22,14 @@
     </style>
 </head>
 <body>
+
+<div th:insert="navbar :: navbar"></div>
+
 <div class="container">
     <div class="title padding">
         <h2 class="text-center">List of cars</h2>
     </div>
-    <div class="row padding float-right">
+    <div sec:authorize="hasRole('GUEST')" class="row padding float-right">
         <a class="btn btn-primary" role="button" th:href="@{'/cars/form/'}">
             <div class="glyphicon glyphicon-plus"></div> Add car
         </a>
@@ -36,14 +39,14 @@
         <tr>
             <th class="header" scope="col">Type</th>
             <th class="header" scope="col">License plate</th>
-            <th class="header" scope="col">Created at</th>
+            <th class="header" scope="col">Added by</th>
             <th class="header details" scope="col"></th>
         </tr>
         </thead>
         <tr th:each="car : ${cars}">
             <td th:text="${car.type.description}"></td>
             <td th:text="${car.licensePlate}"></td>
-            <td th:text="${car.createdAt}"></td>
+            <td th:text="${car.user.email}"></td>
             <td><a th:href="@{'/cars/' + ${car.id}}">Details</a></td>
         </tr>
     </table>

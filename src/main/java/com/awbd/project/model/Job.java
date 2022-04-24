@@ -47,6 +47,6 @@ public class Job {
     @Max(value = 5, message = "Number of employees must be at most 5.")
     private Integer numberOfEmployees;
 
-    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "job", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 }

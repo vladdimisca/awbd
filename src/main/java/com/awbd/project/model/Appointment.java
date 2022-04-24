@@ -2,6 +2,7 @@ package com.awbd.project.model;
 
 import com.awbd.project.model.security.User;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class Appointment {
     private Long id;
 
     @Column(name = "start_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
 
     @ManyToOne

@@ -7,29 +7,28 @@ import com.awbd.project.model.security.User;
 import com.awbd.project.repository.security.AuthorityRepository;
 import com.awbd.project.repository.security.UserRepository;
 import com.awbd.project.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final AuthorityRepository authorityRepository;
-
-    public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository) {
-        this.userRepository = userRepository;
-        this.authorityRepository = authorityRepository;
-    }
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User create(User user) {
         checkUserNotExisting(user);
 
-        Authority authority = authorityRepository.findByRole("ROLE_ADMIN");
+        Authority authority = authorityRepository.findByRole("ROLE_GUEST");
         user.setAuthorities(Collections.singleton(authority));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
@@ -50,6 +49,12 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND, "user", id));
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND, "user", email));
     }
 
     @Override

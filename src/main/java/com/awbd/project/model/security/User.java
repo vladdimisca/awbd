@@ -1,6 +1,7 @@
 package com.awbd.project.model.security;
 
 import com.awbd.project.model.Appointment;
+import com.awbd.project.model.Car;
 import com.awbd.project.model.UserDetails;
 import lombok.*;
 
@@ -29,6 +30,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Car> cars;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_user_details", referencedColumnName = "id")

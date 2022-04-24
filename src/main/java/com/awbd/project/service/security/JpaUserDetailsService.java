@@ -1,5 +1,8 @@
 package com.awbd.project.service.security;
 
+import com.awbd.project.error.ErrorMessage;
+import com.awbd.project.error.exception.ForbiddenActionException;
+import com.awbd.project.error.exception.ResourceNotFoundException;
 import com.awbd.project.model.security.Authority;
 import com.awbd.project.model.security.User;
 import com.awbd.project.repository.security.UserRepository;
@@ -7,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,12 +29,27 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    public UserDetails getCurrentUserPrincipal() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!(principal instanceof UserDetails)) {
+            throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
+        }
+        return (UserDetails) principal;
+    }
+
+    public boolean hasAuthority(String authority) {
+        return getCurrentUserPrincipal().getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch((auth) -> auth.equals(authority));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username).orElseThrow(() ->
                 new UsernameNotFoundException("Username: " + username));
 
-        log.info(user.toString());
+        log.info("Loaded user: {}", user.getEmail());
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), user.getEnabled(), user.getAccountNotExpired(),

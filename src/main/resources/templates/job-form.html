@@ -5,17 +5,25 @@
     <title>Create job</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        .error {
+            color: rgba(255,0,0,0.91);
+        }
+    </style>
 </head>
 <body>
+
+<div th:insert="navbar :: navbar"></div>
+
 <form th:object="${job}" th:action="@{/jobs}" th:method="POST" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}"/>
     <div class="container" style="justify-content: center; padding-top: 20px;">
-        <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
-            <div class="panel-heading" style="background-color:rgba(0,123,255,0.73); padding: 3px;">
+        <div class="panel panel-primary" style="border-radius: 20px; border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+            <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background-color:rgba(0,123,255,0.73); padding: 3px;">
                 <h1 class="panel-title text-center" style="color:white" >Create job</h1>
             </div>
-            <div class="panel-body" style="padding: 20px 20px 20px 30px;">
-                <div class="row">
+            <div class="panel-body" style="padding: 20px;">
+                <div class="row" style="justify-content: center;">
                     <div class="col-md-3">
                         <label for="jobType">Type: </label>
                         <select id="jobType" name="jobType" class="form-control" th:field="*{type}">
@@ -37,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="row" style="padding-top: 20px;">
+                <div class="row" style="padding-top: 20px; justify-content: center;">
                     <div class="col-md-3">
                         <label th:for="price" >Price:</label>
                         <input type="number" class="form-control" th:field="*{price}"/>
@@ -54,19 +62,33 @@
                     </div>
                 </div>
 
-
                 <div class="row" style="padding-top: 30px;">
                     <div class="col-md-7 ml-md-auto">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Submit</button>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></label>
-        <label th:if="${#fields.hasErrors('durationMinutes')}" th:errors="*{durationMinutes}"></label>
-        <label th:if="${#fields.hasErrors('numberOfEmployees')}" th:errors="*{numberOfEmployees}"></label>
+        <ul style="padding: 25px;">
+            <li th:if="${#fields.hasErrors('type')}">
+                <label class="error" th:errors="*{type}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('price')}">
+                <label class="error" th:errors="*{price}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('carType')}">
+                <label class="error" th:errors="*{carType}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('durationMinutes')}">
+                <label class="error" th:errors="*{durationMinutes}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('numberOfEmployees')}">
+                <label class="error" th:errors="*{numberOfEmployees}"></label>
+            </li>
+        </ul>
+
 </form>
 </body>
 </html>

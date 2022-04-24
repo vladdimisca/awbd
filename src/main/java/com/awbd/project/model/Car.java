@@ -1,5 +1,6 @@
 package com.awbd.project.model;
 
+import com.awbd.project.model.security.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -32,6 +33,10 @@ public class Car {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "car", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Appointment> appointments;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_user", referencedColumnName = "id")
+    private User user;
 }
