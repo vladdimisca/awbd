@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>User details</title>
@@ -66,8 +66,8 @@
     </div>
     <div class="container" style="padding-top: 15px;">
         <div class="row" style="justify-content: center">
-            <a class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
-            <form th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: 10px;">
+            <a sec:authorize="hasRole('GUEST')" class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
+            <form sec:authorize="isAuthenticated()" th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: 10px;">
                 <button class="btn btn-danger" type="submit"
                         onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
                     Delete account

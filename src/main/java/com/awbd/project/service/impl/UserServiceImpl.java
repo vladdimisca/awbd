@@ -2,13 +2,18 @@ package com.awbd.project.service.impl;
 
 import com.awbd.project.error.ErrorMessage;
 import com.awbd.project.error.exception.ConflictException;
+import com.awbd.project.error.exception.ForbiddenActionException;
 import com.awbd.project.error.exception.ResourceNotFoundException;
 import com.awbd.project.model.security.Authority;
 import com.awbd.project.model.security.User;
 import com.awbd.project.repository.security.AuthorityRepository;
 import com.awbd.project.repository.security.UserRepository;
 import com.awbd.project.service.UserService;
+import com.awbd.project.service.security.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JpaUserDetailsService jpaUserDetailsService;
 
     @Override
     public User create(User user) {
@@ -43,6 +49,9 @@ public class UserServiceImpl implements UserService {
         if (!existingUser.getUserDetails().getPhoneNumber().equals(user.getUserDetails().getPhoneNumber())) {
             checkPhoneNumberNotExisting(user);
         }
+        if (!existingUser.getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
+            throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
+        }
 
         copyValues(existingUser, user);
 
@@ -51,8 +60,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() ->
+        User user = userRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND, "user", id));
+        boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
+        if (!isAdmin && !user.getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
+            throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
+        }
+        return user;
     }
 
     @Override
@@ -62,8 +76,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public Page<User> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override

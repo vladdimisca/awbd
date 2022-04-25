@@ -30,7 +30,7 @@
                         <select id="job" name="job" class="form-control" th:field="*{job.id}">
                             <option
                                     th:each="job:${jobs}"
-                                    th:value="${job.id}" th:text="${job.type.description}">
+                                    th:value="${job.id}" th:text="${job.type.description} + ' - ' + ${job.carType.description}">
                             </option>
                         </select>
                     </div>

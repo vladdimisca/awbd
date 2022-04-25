@@ -54,7 +54,11 @@ public class SecurityJdbcConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/appointments").hasAnyRole("GUEST")
                 .antMatchers(HttpMethod.DELETE, "/appointments/*").hasAnyRole("GUEST", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/appointments/*").hasAnyRole("GUEST")
-                // TODO: users
+                // users
+                .antMatchers(HttpMethod.GET, "/users/*", "/users/current").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/users").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/users/*").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/users/form/*").hasAnyRole("GUEST", "ADMIN")
                 .and()
                 .formLogin().loginPage("/login-form")
                 .loginProcessingUrl("/auth")
@@ -65,6 +69,6 @@ public class SecurityJdbcConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .and()
-                .exceptionHandling().accessDeniedPage("/access-denied"); // TO DO
+                .exceptionHandling().accessDeniedPage("/access-denied");
     }
 }

@@ -40,7 +40,7 @@
             <th class="header details" scope="col"></th>
         </tr>
         </thead>
-        <tr th:each="user : ${users}">
+        <tr th:each="user : ${usersPage.getContent()}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.userDetails.firstName}"></td>
             <td th:text="${user.userDetails.lastName}"></td>
@@ -49,6 +49,11 @@
             <td><a th:href="@{'/users/' + ${user.id}}">Details</a></td>
         </tr>
     </table>
+    <div th:if="${usersPage.totalPages > 0}" class="pagination" >
+        <a th:if="${usersPage.number < usersPage.totalPages}"
+           th:href="@{/users(size=${usersPage.size}, page=${usersPage.number+2})}">Next page</a>
+        <span th:unless="${usersPage.number < usersPage.totalPages}">Next page</span>
+    </div>
 </div>
 </body>
 </html>

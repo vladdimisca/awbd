@@ -7,6 +7,7 @@ import com.awbd.project.model.Employee;
 import com.awbd.project.repository.EmployeeRepository;
 import com.awbd.project.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAll() {
-        return employeeRepository.findAll();
+        return employeeRepository.findAll(Sort.by("lastName").ascending());
     }
 
     @Override

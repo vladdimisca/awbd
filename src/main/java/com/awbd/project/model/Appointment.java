@@ -1,6 +1,7 @@
 package com.awbd.project.model;
 
 import com.awbd.project.model.security.User;
+import com.awbd.project.model.validator.AppointmentTimeConstraint;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,6 +20,7 @@ public class Appointment {
     private Long id;
 
     @Column(name = "start_time")
+    @AppointmentTimeConstraint
     @NotNull(message = "Appointment time is mandatory.")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
