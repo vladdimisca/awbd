@@ -6,31 +6,31 @@ import com.awbd.project.error.exception.ResourceNotFoundException;
 import com.awbd.project.model.Employee;
 import com.awbd.project.repository.EmployeeRepository;
 import com.awbd.project.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
     @Override
     public Employee create(Employee employee) {
-        checkCarNotExisting(employee);
+        checkEmployeeNotExisting(employee);
         return employeeRepository.save(employee);
     }
 
     @Override
     public Employee update(Long id, Employee employee) {
         Employee existingEmployee = getById(id);
-        if (!existingEmployee.getEmail().equals(employee.getEmail())
-                && !existingEmployee.getPhoneNumber().equals(employee.getPhoneNumber())) {
-            checkCarNotExisting(employee);
+        if (!existingEmployee.getEmail().equals(employee.getEmail())) {
+            checkEmailNotExisting(employee);
+        }
+        if (!existingEmployee.getPhoneNumber().equals(employee.getPhoneNumber())) {
+            checkPhoneNumberNotExisting(employee);
         }
 
         copyValues(existingEmployee, employee);
@@ -55,9 +55,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employee);
     }
 
-    private void checkCarNotExisting(Employee employee) {
+    private void checkEmployeeNotExisting(Employee employee) {
         if (employeeRepository.existsByEmailOrPhoneNumber(employee.getEmail(), employee.getPhoneNumber())) {
             throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "employee", "email or phone number");
+        }
+    }
+
+    private void checkEmailNotExisting(Employee employee) {
+        if (employeeRepository.existsByEmail(employee.getEmail())) {
+            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "employee", "email");
+        }
+    }
+
+    private void checkPhoneNumberNotExisting(Employee employee) {
+        if (employeeRepository.existsByPhoneNumber(employee.getPhoneNumber())) {
+            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "employee", "phone number");
         }
     }
 

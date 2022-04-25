@@ -22,8 +22,10 @@ public class AppointmentController {
     private final JobService jobService;
 
     @PostMapping
-    public String create(@Valid @ModelAttribute Appointment appointment, BindingResult bindingResult) {
+    public String create(@Valid @ModelAttribute Appointment appointment, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("cars", carService.getAll());
+            model.addAttribute("jobs", jobService.getAll());
             return "appointment-form";
         }
 
@@ -32,8 +34,10 @@ public class AppointmentController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute Appointment appointment, BindingResult bindingResult) {
+    public String update(@PathVariable("id") Long id, @Valid @ModelAttribute Appointment appointment, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("cars", carService.getAll());
+            model.addAttribute("jobs", jobService.getAll());
             return "update-appointment-form";
         }
 
@@ -70,6 +74,8 @@ public class AppointmentController {
     @GetMapping("/form/{id}")
     public String updateAppointmentForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("appointment", appointmentService.getById(id));
+        model.addAttribute("cars", carService.getAll());
+        model.addAttribute("jobs", jobService.getAll());
         return "update-appointment-form";
     }
 }

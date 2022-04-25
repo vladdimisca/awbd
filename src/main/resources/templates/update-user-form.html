@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Update profile</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <style>
@@ -15,12 +15,12 @@
 
 <div th:insert="navbar :: navbar"></div>
 
-<form th:object="${user}" th:action="@{/users}" th:method="POST" enctype="multipart/form-data">
+<form th:object="${user}" th:action="@{'/users/' + *{id}}" th:method="PUT" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}"/>
     <div class="container" style="justify-content: center; padding-top: 20px;">
         <div class="panel panel-primary" style="border-radius: 20px; border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
             <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background-color:rgba(0,123,255,0.73); padding: 3px;">
-                <h1 class="panel-title text-center" style="color:white" >Register</h1>
+                <h1 class="panel-title text-center" style="color:white" >Update profile</h1>
             </div>
             <div class="panel-body" style="padding: 20px;">
                 <div class="row" style="justify-content: center;">

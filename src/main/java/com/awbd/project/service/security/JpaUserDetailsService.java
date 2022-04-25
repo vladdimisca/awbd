@@ -2,7 +2,6 @@ package com.awbd.project.service.security;
 
 import com.awbd.project.error.ErrorMessage;
 import com.awbd.project.error.exception.ForbiddenActionException;
-import com.awbd.project.error.exception.ResourceNotFoundException;
 import com.awbd.project.model.security.Authority;
 import com.awbd.project.model.security.User;
 import com.awbd.project.repository.security.UserRepository;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

@@ -12,7 +12,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public SimpleMappingExceptionResolver getSimpleMappingExceptionResolver() {
         SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
 
-        resolver.setDefaultErrorView("error_default");
+        resolver.setDefaultErrorView("error");
         resolver.setExceptionAttribute("exception");
 
         return resolver;

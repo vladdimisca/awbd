@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        .container {
+            padding-top: 10px;
+        }
+        .padding {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+        .btn {
+            margin-right: 20px;
+        }
+        .details {
+            width: 5%;
+        }
+    </style>
+</head>
+<body>
+
+<div th:insert="navbar :: navbar"></div>
+
+<div class="container">
+    <div class="title padding">
+        <h2 class="text-center">List of users</h2>
+    </div>
+    <table class="table table-hover table-striped table-bordered rounded">
+        <thead class="thead-inverse">
+        <tr>
+            <th class="header" scope="col">ID</th>
+            <th class="header" scope="col">First name</th>
+            <th class="header" scope="col">Last name</th>
+            <th class="header" scope="col">Email</th>
+            <th class="header" scope="col">Role</th>
+            <th class="header details" scope="col"></th>
+        </tr>
+        </thead>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userDetails.firstName}"></td>
+            <td th:text="${user.userDetails.lastName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.authorities[0].role}"></td>
+            <td><a th:href="@{'/users/' + ${user.id}}">Details</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

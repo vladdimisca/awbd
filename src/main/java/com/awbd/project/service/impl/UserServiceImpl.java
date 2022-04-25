@@ -1,6 +1,7 @@
 package com.awbd.project.service.impl;
 
 import com.awbd.project.error.ErrorMessage;
+import com.awbd.project.error.exception.ConflictException;
 import com.awbd.project.error.exception.ResourceNotFoundException;
 import com.awbd.project.model.security.Authority;
 import com.awbd.project.model.security.User;
@@ -36,9 +37,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(Long id, User user) {
         User existingUser = getById(id);
-//        if (!existingCar.getLicensePlate().equals(car.getLicensePlate())) {
-//            checkCarNotExisting(car);
-//        }
+        if (!existingUser.getEmail().equals(user.getEmail())) {
+            checkEmailNotExisting(user);
+        }
+        if (!existingUser.getUserDetails().getPhoneNumber().equals(user.getUserDetails().getPhoneNumber())) {
+            checkPhoneNumberNotExisting(user);
+        }
 
         copyValues(existingUser, user);
 
@@ -69,13 +73,29 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkUserNotExisting(User user) {
-//        if (userRepository.existsByLicensePlate(car.getLicensePlate())) {
-//            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "car", "license plate");
-//        }
+       if (userRepository.existsByEmailOrPhoneNumber(user.getEmail(), user.getUserDetails().getPhoneNumber())) {
+            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "user", "email or phone number");
+        }
+    }
+
+    private void checkEmailNotExisting(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "user", "email");
+        }
+    }
+
+    private void checkPhoneNumberNotExisting(User user) {
+        if (userRepository.existsByPhoneNumber(user.getUserDetails().getPhoneNumber())) {
+            throw new ConflictException(ErrorMessage.ALREADY_EXISTS, "user", "phone number");
+        }
     }
 
     private void copyValues(User to, User from) {
-//        to.set(from.getType());
-//        to.setLicensePlate(from.getLicensePlate());
+        to.getUserDetails().setFirstName(from.getUserDetails().getFirstName());
+        to.getUserDetails().setLastName(from.getUserDetails().getLastName());
+        to.getUserDetails().setSex(from.getUserDetails().getSex());
+        to.getUserDetails().setPhoneNumber(from.getUserDetails().getPhoneNumber());
+        to.setEmail(from.getEmail());
+        to.setPassword(bCryptPasswordEncoder.encode(from.getPassword()));
     }
 }

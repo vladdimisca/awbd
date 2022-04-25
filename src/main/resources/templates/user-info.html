@@ -14,11 +14,11 @@
     <div class="row" style="justify-content: center">
         <div class="col-md-8 col-md-offset-3">
             <div class="panel-group">
-                <div class="panel panel-primary" style="border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
-                    <div class="panel-heading" style="background-color:rgba(0,123,255,0.73);">
+                <div class="panel panel-primary" style="border-radius: 20px; border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
+                    <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background-color:rgba(0,123,255,0.73); padding: 3px;">
                         <h1 class="panel-title text-center" style="color:white" >User profile</h1>
                     </div>
-                    <div class="panel-body" style="padding-left: 20px">
+                    <div class="panel-body" style="padding-left: 20px; padding-top: 10px;">
                         <div class="row">
                             <div class="col-md-6">
                                 <strong>Email:</strong>
@@ -68,7 +68,10 @@
         <div class="row" style="justify-content: center">
             <a class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
             <form th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: 10px;">
-                <button class="btn btn-danger" type="submit">Delete account</button>
+                <button class="btn btn-danger" type="submit"
+                        onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
+                    Delete account
+                </button>
             </form>
         </div>
     </div>

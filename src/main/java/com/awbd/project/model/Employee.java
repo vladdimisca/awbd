@@ -30,7 +30,7 @@ public class Employee {
     private String lastName;
 
     @Column(name = "email")
-    @NotEmpty(message="Email cannot be empty")
+    @NotEmpty(message="Email cannot be empty.")
     @Email(message = "Email has an invalid format.")
     private String email;
 
@@ -50,9 +50,6 @@ public class Employee {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate hireDate;
 
-    @ManyToMany
-    @JoinTable(name = "employees_appointments",
-        joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"))
+    @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 }

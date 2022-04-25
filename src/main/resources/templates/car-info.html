@@ -40,7 +40,7 @@
                                 <strong>Created at:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${car.createdAt}"></p>
+                                <p th:text="${car.createdAt.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></p>
                             </div>
                         </div>
                         <div class="row">
@@ -60,7 +60,10 @@
         <div class="row" style="justify-content: center">
             <a sec:authorize="hasRole('GUEST')" class="btn btn-primary" role="button" th:href="@{'/cars/form/' + ${car.id}}">Update car</a>
             <form sec:authorize="isAuthenticated()" th:action="@{'/cars/' + ${car.id}}" th:method="DELETE" style="margin-left: 10px;">
-                <button class="btn btn-danger" type="submit">Delete car</button>
+                <button class="btn btn-danger" type="submit"
+                        onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
+                    Delete car
+                </button>
             </form>
         </div>
     </div>

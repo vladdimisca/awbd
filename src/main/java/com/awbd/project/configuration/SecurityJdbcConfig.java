@@ -34,17 +34,27 @@ public class SecurityJdbcConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                // jobs
                 .antMatchers("/jobs/form/**").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/jobs", "/jobs/*").hasAnyRole("GUEST", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/jobs").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/jobs").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/jobs/*").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/jobs/*").hasAnyRole("ADMIN")
-                .antMatchers("/product/new").hasRole("ADMIN")
-                .antMatchers("/product/delete/*").hasRole("ADMIN")
-                .antMatchers("/product").hasRole("ADMIN")
-                .antMatchers("/product/info/*").hasAnyRole("GUEST", "ADMIN")
-                .antMatchers("/product/list").hasAnyRole("GUEST", "ADMIN")
+                // cars
+                .antMatchers("/cars/form/**").hasAnyRole("GUEST")
+                .antMatchers(HttpMethod.GET, "/cars", "/cars/*").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/cars").hasAnyRole("GUEST")
+                .antMatchers(HttpMethod.DELETE, "/cars/*").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/cars/*").hasAnyRole("GUEST")
+                // employees
                 .antMatchers("/employees/**").hasAnyRole("ADMIN")
+                // appointments
+                .antMatchers("/appointments/form/**").hasAnyRole("GUEST")
+                .antMatchers(HttpMethod.GET, "/appointments", "/appointments/*").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/appointments").hasAnyRole("GUEST")
+                .antMatchers(HttpMethod.DELETE, "/appointments/*").hasAnyRole("GUEST", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/appointments/*").hasAnyRole("GUEST")
+                // TODO: users
                 .and()
                 .formLogin().loginPage("/login-form")
                 .loginProcessingUrl("/auth")
@@ -55,6 +65,6 @@ public class SecurityJdbcConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .and()
-                .exceptionHandling().accessDeniedPage("/access-denied");
+                .exceptionHandling().accessDeniedPage("/access-denied"); // TO DO
     }
 }

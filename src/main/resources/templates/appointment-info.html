@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Employee details</title>
+    <title>Appointment details</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
@@ -16,15 +16,15 @@
             <div class="panel-group">
                 <div class="panel panel-primary" style="border-radius: 20px; border-width: 1px; border-style: solid; border-color: rgb(75,77,79);">
                     <div class="panel-heading" style="border-top-left-radius: 20px; border-top-right-radius: 20px; background-color:rgba(0,123,255,0.73); padding: 3px;">
-                        <h1 class="panel-title text-center" style="color:white" >Employee details</h1>
+                        <h1 class="panel-title text-center" style="color:white" >Appointment details</h1>
                     </div>
                     <div class="panel-body" style="padding-left: 20px; padding-top: 10px;">
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Email:</strong>
+                                <strong>Start time:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${employee.email}"></p>
+                                <p th:text="${appointment.startTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></p>
                             </div>
                         </div>
                         <div class="row">
@@ -32,39 +32,55 @@
                                 <strong>Phone number:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${employee.phoneNumber}"></p>
+                                <p th:text="${appointment.user.userDetails.phoneNumber}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>First name:</strong>
+                                <strong>Email:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${employee.firstName}"></p>
+                                <p th:text="${appointment.user.email}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Last name:</strong>
+                                <strong>Job type:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${employee.lastName}"></p>
+                                <p th:text="${appointment.job.type.description}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Salary:</strong>
+                                <strong>Duration minutes:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${employee.salary}"></p>
+                                <p th:text="${appointment.job.durationMinutes}"></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Hire date:</strong>
+                                <strong>Price:</strong>
                             </div>
                             <div class="col-md-6 float-right">
-                                <p th:text="${employee.hireDate}"></p>
+                                <p th:text="${appointment.job.price}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>License plate:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${appointment.car.licensePlate}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Car type:</strong>
+                            </div>
+                            <div class="col-md-6 float-right">
+                                <p th:text="${appointment.car.type.description}"></p>
                             </div>
                         </div>
                     </div>
@@ -74,11 +90,11 @@
     </div>
     <div class="container" style="padding-top: 15px;">
         <div class="row" style="justify-content: center">
-            <a class="btn btn-primary" role="button" th:href="@{'/employees/form/' + ${employee.id}}">Update employee</a>
-            <form th:action="@{'/employees/' + ${employee.id}}" th:method="DELETE" style="margin-left: 10px;">
+            <a sec:authorize="hasRole('GUEST')" class="btn btn-primary" role="button" th:href="@{'/appointments/form/' + ${appointment.id}}">Update appointment</a>
+            <form sec:authorize="isAuthenticated()" th:action="@{'/appointments/' + ${appointment.id}}" th:method="DELETE" style="margin-left: 10px;">
                 <button class="btn btn-danger" type="submit"
                         onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">
-                    Delete employee
+                    Delete appointment
                 </button>
             </form>
         </div>

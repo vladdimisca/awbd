@@ -3,6 +3,8 @@ package com.awbd.project.controller;
 import com.awbd.project.model.UserDetails;
 import com.awbd.project.model.security.User;
 import com.awbd.project.service.UserService;
+import com.awbd.project.service.security.JpaUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,13 +17,11 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private final JpaUserDetailsService jpaUserDetailsService;
 
     @PostMapping
     public String create(@Valid @ModelAttribute User user, BindingResult bindingResult) {
@@ -47,6 +47,13 @@ public class UserController {
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAll());
         return "users";
+    }
+
+    @GetMapping("/current")
+    public String getCurrentUser(Model model) {
+        User user = userService.getByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
+        model.addAttribute("user", user);
+        return "user-info";
     }
 
     @GetMapping("/{id}")

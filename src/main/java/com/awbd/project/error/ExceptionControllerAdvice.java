@@ -15,6 +15,8 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(AbstractApiException.class)
     public ModelAndView handleApiException(AbstractApiException exception) {
+        log.info("Custom exception handled: " + exception.getMessage(), exception);
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.getModel().put("exception", exception);
         modelAndView.setViewName("custom-error");

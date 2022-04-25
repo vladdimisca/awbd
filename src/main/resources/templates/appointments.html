@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Appointments</title>
@@ -29,7 +29,7 @@
     <div class="title padding">
         <h2 class="text-center">List of appointments</h2>
     </div>
-    <div class="row padding float-right">
+    <div sec:authorize="hasRole('GUEST')" class="row padding float-right">
         <a class="btn btn-primary" role="button" th:href="@{'/appointments/form/'}">
             <div class="glyphicon glyphicon-plus"></div> Add appointment
         </a>
@@ -46,7 +46,7 @@
         </tr>
         </thead>
         <tr th:each="appointment : ${appointments}">
-            <td th:text="${appointment.startTime}"></td>
+            <td th:text="${appointment.startTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></td>
             <td th:text="${appointment.user.userDetails.phoneNumber}"></td>
             <td th:text="${appointment.user.email}"></td>
             <td th:text="${appointment.job.type.description}"></td>
