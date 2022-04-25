@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/appointments/*").hasAnyRole("GUEST", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/appointments/*").hasAnyRole("GUEST")
                 // users
+                .antMatchers(HttpMethod.GET, "/users/form").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/*", "/users/current").hasAnyRole("GUEST", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/users").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/users/*").hasAnyRole("GUEST", "ADMIN")

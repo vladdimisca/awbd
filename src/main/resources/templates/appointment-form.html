@@ -62,7 +62,7 @@
 
         <ul style="padding: 25px;">
             <li th:if="${#fields.hasErrors('startTime')}">
-                <label class="error" th:errors="*{startTime}">Appointment date and time is missing or does not match the required format.</label>
+                <label class="error" th:errors="*{startTime}"></label>
             </li>
             <li th:if="${#fields.hasErrors('car')}">
                 <label class="error" th:errors="*{car}"></label>

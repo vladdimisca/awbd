@@ -63,6 +63,7 @@ public class UserController {
     public String getCurrentUser(Model model) {
         User user = userService.getByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
         model.addAttribute("user", user);
+        model.addAttribute("updatable", true);
         return "user-info";
     }
 

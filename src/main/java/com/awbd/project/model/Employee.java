@@ -50,6 +50,6 @@ public class Employee {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate hireDate;
 
-    @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 }

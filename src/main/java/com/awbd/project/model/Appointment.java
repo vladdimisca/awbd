@@ -2,7 +2,8 @@ package com.awbd.project.model;
 
 import com.awbd.project.model.security.User;
 import com.awbd.project.model.validator.AppointmentTimeConstraint;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,7 +11,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "appointments")
 public class Appointment {
@@ -39,7 +41,7 @@ public class Appointment {
     @JoinColumn(name = "fk_job", referencedColumnName = "id")
     private Job job;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "employees_appointments",
             joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"))

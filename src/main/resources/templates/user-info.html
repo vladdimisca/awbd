@@ -67,6 +67,7 @@
     <div class="container" style="padding-top: 15px;">
         <div class="row" style="justify-content: center">
             <a sec:authorize="hasRole('GUEST')" class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
+            <a sec:authorize="hasRole('ADMIN')" th:if="${updatable == true}" class="btn btn-primary" role="button" th:href="@{'/users/form/' + ${user.id}}">Update profile</a>
             <form sec:authorize="isAuthenticated()" th:action="@{'/users/' + ${user.id}}" th:method="DELETE" style="margin-left: 10px;">
                 <button class="btn btn-danger" type="submit"
                         onclick="if (!confirm('Are you sure?\nThis action is not reversible!')) return false;">

@@ -61,15 +61,15 @@
         </div>
 
         <ul style="padding: 25px;">
-<!--            <li th:if="${#fields.hasErrors('startTime')}">-->
-<!--                <label class="error" th:errors="*{startTime}">Appointment date and time is missing or does not match the required format.</label>-->
-<!--            </li>-->
-<!--            <li th:if="${#fields.hasErrors('car')}">-->
-<!--                <label class="error" th:errors="*{car}"></label>-->
-<!--            </li>-->
-<!--            <li th:if="${#fields.hasErrors('job')}">-->
-<!--                <label class="error" th:errors="*{job}"></label>-->
-<!--            </li>-->
+            <li th:if="${#fields.hasErrors('startTime')}">
+                <label class="error" th:errors="*{startTime}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('car')}">
+                <label class="error" th:errors="*{car}"></label>
+            </li>
+            <li th:if="${#fields.hasErrors('job')}">
+                <label class="error" th:errors="*{job}"></label>
+            </li>
         </ul>
 
     </div>

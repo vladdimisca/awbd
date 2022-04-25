@@ -1,6 +1,7 @@
 package com.awbd.project.service.impl;
 
 import com.awbd.project.error.ErrorMessage;
+import com.awbd.project.error.exception.BadRequestException;
 import com.awbd.project.error.exception.ConflictException;
 import com.awbd.project.error.exception.ForbiddenActionException;
 import com.awbd.project.error.exception.ResourceNotFoundException;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -35,11 +38,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment create(Appointment appointment) {
         Job job = jobService.getById(appointment.getJob().getId());
+        Car car = carService.getById(appointment.getCar().getId());
+        if (!car.getType().equals(job.getCarType())) {
+            throw new BadRequestException(ErrorMessage.NOT_MATCHING, "Car type", "job");
+        }
+
         List<Employee> employees =
                 getFreeEmployees(job.getNumberOfEmployees(), appointment.getStartTime(), job.getDurationMinutes());
 
         User user = userService.getByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername());
-        Car car = carService.getById(appointment.getCar().getId());
 
         appointment.setEmployees(employees);
         appointment.setUser(user);
@@ -56,14 +63,23 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new ForbiddenActionException(ErrorMessage.FORBIDDEN);
         }
 
+        Car car = carService.getById(appointment.getCar().getId());
         Job job = jobService.getById(appointment.getJob().getId());
-        List<Employee> employees =
-                getFreeEmployees(job.getNumberOfEmployees(), appointment.getStartTime(), job.getDurationMinutes());
+        if (!car.getType().equals(job.getCarType())) {
+            throw new BadRequestException(ErrorMessage.NOT_MATCHING, "car type", "job");
+        }
+
+        Appointment[] obsoleteAppointments = existingAppointment.getEmployees().stream()
+                .flatMap(employee -> employee.getAppointments().stream())
+                .toArray(Appointment[]::new);
+
+        List<Employee> employees = getFreeEmployees(
+                job.getNumberOfEmployees(), appointment.getStartTime(), job.getDurationMinutes(), obsoleteAppointments);
 
         existingAppointment.setEmployees(employees);
         existingAppointment.setStartTime(appointment.getStartTime());
-        existingAppointment.setCar(carService.getById(appointment.getCar().getId()));
-        existingAppointment.setJob(jobService.getById(appointment.getJob().getId()));
+        existingAppointment.setCar(car);
+        existingAppointment.setJob(job);
 
         return appointmentRepository.save(existingAppointment);
     }
@@ -95,7 +111,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
-    private List<Employee> getFreeEmployees(Integer numberOfEmployees, LocalDateTime startTime, Long durationMinutes) {
+    private List<Employee> getFreeEmployees(Integer numberOfEmployees, LocalDateTime startTime,
+                                            Long durationMinutes, Appointment... obsoleteAppointments) {
         List<Employee> freeEmployees = new ArrayList<>();
         List<Employee> allEmployees = employeeService.getAll();
         for (Employee employee : allEmployees) {
@@ -104,9 +121,11 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
 
             boolean isFree = true;
-            for (Appointment appointment : employee.getAppointments()) {
-                LocalDateTime start = appointment.getStartTime();
-                LocalDateTime end = appointment.getStartTime().plusMinutes(appointment.getJob().getDurationMinutes());
+            List<Appointment> appointments = employee.getAppointments();
+            appointments.removeAll(Arrays.asList(obsoleteAppointments));
+            for (Appointment appointment : appointments) {
+                LocalDateTime start = appointment.getStartTime().plusMinutes(1);
+                LocalDateTime end = appointment.getStartTime().plusMinutes(appointment.getJob().getDurationMinutes() - 1);
                 if ((start.isAfter(startTime) && start.isBefore(startTime.plusMinutes(durationMinutes))) ||
                         (end.isAfter(startTime) && end.isBefore(startTime.plusMinutes(durationMinutes)))) {
                     isFree = false;
