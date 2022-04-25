@@ -1,6 +1,8 @@
 package com.awbd.project.service;
 
 import com.awbd.project.model.Appointment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ public interface AppointmentService {
 
     Appointment getById(Long id);
 
-    List<Appointment> getAll();
+    Page<Appointment> getAll(Pageable pageable);
 
     void deleteById(Long id);
 }

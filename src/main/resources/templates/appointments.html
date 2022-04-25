@@ -45,7 +45,7 @@
             <th class="header details" scope="col"></th>
         </tr>
         </thead>
-        <tr th:each="appointment : ${appointments}">
+        <tr th:each="appointment : ${appointmentsPage.getContent()}">
             <td th:text="${appointment.startTime.format(T(java.time.format.DateTimeFormatter).ofPattern('yyyy-MM-dd HH:mm'))}"></td>
             <td th:text="${appointment.user.userDetails.phoneNumber}"></td>
             <td th:text="${appointment.user.email}"></td>
@@ -54,6 +54,20 @@
             <td><a th:href="@{'/appointments/' + ${appointment.id}}">Details</a></td>
         </tr>
     </table>
+
+    <div th:if="${appointmentsPage.totalPages > 0}" class="pagination" >
+        <a th:if="${appointmentsPage.number + 1 < appointmentsPage.totalPages}"
+           th:href="@{/appointments(size=${appointmentsPage.size}, page=${appointmentsPage.number + 2})}">
+            <button class="btn btn-primary">Next page</button>
+        </a>
+
+        <button disabled class="disabled btn btn-primary" th:unless="${appointmentsPage.number + 1 < appointmentsPage.totalPages}">Next page</button>
+
+        <a th:if="${appointmentsPage.number != 0}"
+           th:href="@{/appointments(size=${appointmentsPage.size}, page=${appointmentsPage.number})}" style="margin-left: -10px; ">
+            <button class="btn btn-secondary">Previous page</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>

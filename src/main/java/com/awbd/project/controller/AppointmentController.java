@@ -5,12 +5,16 @@ import com.awbd.project.service.AppointmentService;
 import com.awbd.project.service.CarService;
 import com.awbd.project.service.JobService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,8 +50,14 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("appointments", appointmentService.getAll());
+    public String getAll(Model model,
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1) - 1;
+        int pageSize = size.orElse(15);
+        Pageable pageable = PageRequest.of(currentPage, pageSize, Sort.by("startTime").ascending());
+
+        model.addAttribute("appointmentsPage", appointmentService.getAll(pageable));
         return "appointments";
     }
 

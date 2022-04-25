@@ -13,7 +13,8 @@ import com.awbd.project.repository.AppointmentRepository;
 import com.awbd.project.service.*;
 import com.awbd.project.service.security.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -80,12 +81,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAll() {
+    public Page<Appointment> getAll(Pageable pageable) {
         boolean isAdmin = jpaUserDetailsService.hasAuthority("ROLE_ADMIN");
         if (isAdmin) {
-            return appointmentRepository.findAll(Sort.by("startTime").ascending());
+            return appointmentRepository.findAll(pageable);
         }
-        return appointmentRepository.findAllByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername(), Sort.by("startTime").ascending());
+        return appointmentRepository.findAllByEmail(jpaUserDetailsService.getCurrentUserPrincipal().getUsername(), pageable);
     }
 
     @Override

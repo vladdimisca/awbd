@@ -49,10 +49,19 @@
             <td><a th:href="@{'/users/' + ${user.id}}">Details</a></td>
         </tr>
     </table>
+
     <div th:if="${usersPage.totalPages > 0}" class="pagination" >
-        <a th:if="${usersPage.number < usersPage.totalPages}"
-           th:href="@{/users(size=${usersPage.size}, page=${usersPage.number+2})}">Next page</a>
-        <span th:unless="${usersPage.number < usersPage.totalPages}">Next page</span>
+        <a th:if="${usersPage.number + 1 < usersPage.totalPages}"
+              th:href="@{/users(size=${usersPage.size}, page=${usersPage.number + 2})}">
+            <button class="btn btn-primary">Next page</button>
+        </a>
+
+        <button disabled class="disabled btn btn-primary" th:unless="${usersPage.number + 1 < usersPage.totalPages}">Next page</button>
+
+        <a th:if="${usersPage.number != 0}"
+           th:href="@{/users(size=${usersPage.size}, page=${usersPage.number})}" style="margin-left: -10px; ">
+            <button class="btn btn-secondary">Previous page</button>
+        </a>
     </div>
 </div>
 </body>
