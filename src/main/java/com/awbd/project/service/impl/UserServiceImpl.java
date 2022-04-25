@@ -13,12 +13,11 @@ import com.awbd.project.service.security.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +83,10 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) {
         User user = getById(id);
         userRepository.delete(user);
+
+        if (user.getEmail().equals(jpaUserDetailsService.getCurrentUserPrincipal().getUsername())) {
+            SecurityContextHolder.clearContext(); // force logout
+        }
     }
 
     private void checkUserNotExisting(User user) {
