@@ -32,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
             UserDetails adminDetails = UserDetails.builder()
                     .firstName("admin")
                     .lastName("awbd")
-                    .phoneNumber("0761111111111")
+                    .phoneNumber("0761111111")
                     .sex(SexType.MALE)
                     .build();
 
@@ -46,7 +46,7 @@ public class DataLoader implements CommandLineRunner {
             UserDetails guestDetails = UserDetails.builder()
                     .firstName("guest")
                     .lastName("awbd")
-                    .phoneNumber("0751111111111")
+                    .phoneNumber("0751111111")
                     .sex(SexType.MALE)
                     .build();
 

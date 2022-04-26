@@ -4,8 +4,6 @@ import com.awbd.project.model.security.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface UserService {
     User create(User user);
 
