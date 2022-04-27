@@ -66,7 +66,7 @@ class CarServiceTest {
 
     @Test
     @DisplayName("Create car - existing license plate and user - success")
-    void create_existingLicenseTypeAndUser_failure() {
+    void create_existingLicensePlateAndUser_failure() {
         Car car = getCar();
         User user = getUser();
 
