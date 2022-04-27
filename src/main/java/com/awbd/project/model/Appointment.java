@@ -23,7 +23,7 @@ public class Appointment {
 
     @Column(name = "start_time")
     @AppointmentTimeConstraint
-    @NotNull(message = "Appointment time is mandatory.")
+    @NotNull(message = "Start time is mandatory.")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;
 

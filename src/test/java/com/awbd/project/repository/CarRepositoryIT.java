@@ -1,7 +1,6 @@
 package com.awbd.project.repository;
 
 import com.awbd.project.model.Car;
-import com.awbd.project.repository.security.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles("h2")
 @Rollback(false)
 @Slf4j
-class CarRepositoryTest {
+class CarRepositoryIT {
 
     private static final String USER_EMAIL = "random@gmail.com";
 
